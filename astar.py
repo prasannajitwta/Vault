@@ -93,3 +93,110 @@ Graph_nodes = {'S': [['A', 1], ['B', 5], ['C', 8]],
             'E': None} 
 
 A_star('S', 'G')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+####################################################################
+def get_neighbours(v):
+    return adja[v]
+def h(n):
+    H={'A':1,'B':1, 'C':1,'D':1}
+    return H[n]
+
+def a_star_algorithm(start,stop):
+        openn = set([start])
+        closed = set([])
+        dist ={}
+        dist[start] = 0
+        prenode ={}
+        prenode[start] =start
+        while len(openn)>0:
+            n = None
+            for v in openn:
+                if n==None or dist[v]+h(v)<dist[n]+h(n):
+                    n=v;
+            if n==None:
+                print("path doesnot exist")
+                return None
+            if n==stop:
+                 reconst_path=[]
+                 while prenode[n]!=n:
+                     reconst_path.append(n)
+                     n = prenode[n]
+                 reconst_path.append(start)
+                 reconst_path.reverse()
+                 print("path found:{}".format(reconst_path))
+                 return reconst_path
+            for (m,weight) in get_neighbours(n):
+                if m not in openn and m not in closed:
+                    openn.add(m)
+                    prenode[m] = n
+                    dist[m] = dist[n]+weight
+                else:
+                    if dist[m]>dist[n]+weight:
+                        dist[m] = dist[n]+weight
+                        prenode[m]=n
+                        if m in closed:
+                            closed.remove(m)
+                            openn.add(m)
+            openn.remove(n)
+            closed.add(n)
+        print("Path doesnot exist")
+        return None
+
+adja ={'A':[('B',1),('C',3),('D',7)],'B':[('D',5)],'C':[('D',12)]}
+a_star_algorithm('A', 'D')
+
+
+
+
+
+
